@@ -20,7 +20,7 @@ let textStyle = {
 	fontFamily: "sans-serif",
 }
 
-let rankStyle = {
+let frequencyStyle = {
 	position: 'absolute',
 	top: '5px',
 	right: '5px',
@@ -100,7 +100,7 @@ class Flashcard extends React.Component {
 						onMouseEnter={() => this.hoverTrue()}
 						onMouseLeave={() => this.hoverFalse()}
 						onMouseOver={() => this.hoverTrue()}>
-						<span style={rankStyle} >{this.state.word.rank} </span>
+						<span style={frequencyStyle} >{this.state.word.frequency} </span>
 						<span style={textStyle} >{this.state.word.english} </span>
 						<span style={lanStyle}>eng.</span>
 						{this.state.hover && 

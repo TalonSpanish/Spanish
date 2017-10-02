@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Card from "./components/flashcard";
-import list from "./assets/top1000"
 import util from './components/util'
 import Options from './components/options'
 import Deck from './components/deck'
@@ -12,7 +11,7 @@ class App extends React.Component {
 		super();
 
 		var deck = new Deck();
-		deck.init(list);
+		deck.init([]);
 
 		this.state = {
 			deck: deck,
@@ -26,7 +25,21 @@ class App extends React.Component {
 	}
 
 	componentDidMount() {
-		this.startingList(0, 100);
+		
+		const options = {
+			method: 'GET',
+			headers: { 'Content-Type' : 'application/json' },
+		};
+
+		fetch('http://localhost:3000/api/spanish/top1000', options)
+			.then(response => {
+				return response.json();
+			}).then(data => {
+				const deck = new Deck();
+				deck.init(data);
+				this.setState({ deck: deck });
+				this.startingList(0, 100);
+			});
 	}
 
 	startingList() {
@@ -37,7 +50,7 @@ class App extends React.Component {
 		while(list.length < count) {
 			list.push(deck.next());
 		}
-		this.setState( { words: list, deck: deck}, this.render());
+		this.setState( { words: list, deck: deck});
 	}
 
 	getNext() {
@@ -45,15 +58,15 @@ class App extends React.Component {
 	}
 
 	setStart(num) {
-		this.setState( {startAt: num}, () => this.startingList())
+		this.setState( {startAt: num}, () => this.startingList)
 	}
 
 	setWordsPerRow(num) {
-		this.setState( { wordsPerRow: num }, () => this.startingList() );
+		this.setState( { wordsPerRow: num }, () => this.startingList );
 	}
 
 	setRowsPerPage(num) {
-		this.setState( { rowsPerPage: num }, () => this.startingList() );
+		this.setState( { rowsPerPage: num }, () => this.startingList );
 	}
 
 	showOptions() {
