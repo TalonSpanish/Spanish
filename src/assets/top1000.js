@@ -1010,3 +1010,5 @@ top1000.split("\n").forEach(line => {
 })
 
 export default list;
+
+// module.exports = list;
