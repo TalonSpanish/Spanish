@@ -9,13 +9,14 @@ app.use(express.static('dist'));
 app.use(bodyParser.json());
 
 const mysql = sql.createConnection(mysqlConfig);
+
 mysql.connect( function(err) {
-    if (err) return console.log(err);
+    if (err) return res.json({ 'error': err });
 })
 
 app.get('/api/spanish/top1000', (req, res) => {    
     mysql.query('select * from top1000', (err, result) => {
-        if (err) return console.log(err);
+        if (err) return res.json({ 'error2': err });
         res.json(result);
     })
 });

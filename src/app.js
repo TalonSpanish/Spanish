@@ -31,7 +31,7 @@ class App extends React.Component {
 			headers: { 'Content-Type' : 'application/json' },
 		};
 
-		fetch('http://localhost:3000/api/spanish/top1000', options)
+		fetch('http://54.193.115.230/api/spanish/top1000', options)
 			.then(response => {
 				return response.json();
 			}).then(data => {
@@ -39,6 +39,8 @@ class App extends React.Component {
 				deck.init(data);
 				this.setState({ deck: deck });
 				this.startingList(0, 100);
+			}).catch(err => {
+				console.log('error ' + err);
 			});
 	}
 
