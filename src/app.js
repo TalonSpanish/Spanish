@@ -9,7 +9,12 @@ import { createStore } from 'redux';
 import { Provider, connect } from 'react-redux';
 import Cards from './components/cardlist';
 import { loadState, saveState } from './util/localStorage';
-import throttle from 'lodash/throttle'
+import throttle from 'lodash/throttle';
+import {
+	BrowserRouter as Router,
+	Route,
+	Link
+} from 'react-router-dom';
 
 const persistedState = loadState();
 const store = createStore(rootReducer, persistedState)
@@ -57,22 +62,9 @@ class App extends React.Component {
 
 ReactDOM.render(
 	<Provider store={store}>
-		<App />
+		<Router>
+			<Route path="/" component={App} />
+		</Router>
 	</Provider>,
 	document.getElementById("app")
 );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
