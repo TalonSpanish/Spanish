@@ -1,15 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import util from './components/util'
-import Options from './components/options'
-import Deck from './components/deck'
+import util from './components/util';
+import Options from './components/options';
+import Deck from './components/deck';
 
 import rootReducer from './rootReducer';
 import { createStore } from 'redux';
 import { Provider, connect } from 'react-redux';
-import Cards from './components/cardlist'
+import Cards from './components/cardlist';
+import { loadState, saveState } from './util/localStorage';
 
-const store = createStore(rootReducer)
+const persistedState = loadState();
+const store = createStore(rootReducer, persistedState)
+
+store.subscribe(() => {
+	saveState(store.getState());
+});
 
 class App extends React.Component {
 
@@ -23,8 +29,8 @@ class App extends React.Component {
 			method: 'GET',
 			headers: { 'Content-Type' : 'application/json' },
 		};
-
-		fetch('http://54.193.115.230/api/spanish/top1000', options)
+		if (store.getState().words.length < 2) {
+			fetch('http://54.193.115.230/api/spanish/top1000', options)
 			.then(response => {
 				return response.json();
 			}).then(data => {
@@ -36,6 +42,7 @@ class App extends React.Component {
 			}).catch(err => {
 				console.log('error ' + err);
 			});
+		}
 	}
 
 	render() {
