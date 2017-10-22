@@ -9,13 +9,14 @@ import { createStore } from 'redux';
 import { Provider, connect } from 'react-redux';
 import Cards from './components/cardlist';
 import { loadState, saveState } from './util/localStorage';
+import throttle from 'lodash/throttle'
 
 const persistedState = loadState();
 const store = createStore(rootReducer, persistedState)
 
-store.subscribe(() => {
+store.subscribe(throttle(() => {
 	saveState(store.getState());
-});
+}, 1000));
 
 class App extends React.Component {
 
